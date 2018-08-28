@@ -68,8 +68,15 @@ function buyItem(resp, quantity){
         })
 
         var totalCost = parseInt(quantity) * parseFloat(resp.price);
+        addTotal(resp.item_id, resp.product_sales, totalCost);
         console.log("The total cost of your purchase: $" + totalCost.toFixed(2));
     }
+}
+
+function addTotal(id, sales, totalProfit){
+    connection.query("UPDATE products SET product_sales=? WHERE item_id=?", [parseFloat(sales) + parseFloat(totalProfit), id], function(err, resp){
+        if(err) throw err;
+    })
 }
 
 // Function to make spacing of the output match the header
